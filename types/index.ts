@@ -1,4 +1,4 @@
-export interface Inputitems {
+export interface SuggestionItems {
   id: number
   label: string
   icon: string

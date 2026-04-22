@@ -4,6 +4,7 @@ import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
 import { Toaster } from "@/components/ui/sonner"
+import { TooltipProvider } from "@/components/ui/tooltip"
 
 const jost = Jost({
   subsets: ["latin"],
@@ -40,8 +41,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
-          <Toaster richColors position="bottom-center" />
+          <TooltipProvider>
+            {children}
+            <Toaster richColors position="bottom-center" />
+          </TooltipProvider>
         </ThemeProvider>
       </body>
     </html>
