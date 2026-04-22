@@ -4,6 +4,7 @@ import { Suggestion, Suggestions } from "@/components/ai-elements/suggestion"
 import PromptInput from "@/components/prompt-input"
 import { suggestionItems } from "@/constants"
 import { useState } from "react"
+import Header from "./header"
 
 export default function LandingSection() {
   const [promptText, setPromptText] = useState<string>("")
@@ -14,7 +15,7 @@ export default function LandingSection() {
   return (
     <div className="min-h-screen w-full px-4 md:px-0">
       <div className="flex flex-col">
-        {/* <Header /> */}
+        <Header />
         <div className="relative overflow-hidden pt-28">
           <div className="mx-auto flex w-full flex-col items-center justify-center sm:max-w-6xl">
             <div className="space-y-3">
