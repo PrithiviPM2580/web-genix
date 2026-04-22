@@ -40,7 +40,7 @@ export default function Header() {
                 )}
               />
             </Button>
-            <LoginLink>
+            <LoginLink postLoginRedirectURL="/">
               <Button>Sign In</Button>
             </LoginLink>
           </div>
