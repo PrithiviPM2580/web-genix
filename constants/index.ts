@@ -72,3 +72,61 @@ export const suggestionItems: SuggestionItems[] = [
       "Design a personal website that reflects your personality, interests, and professional background in a cohesive and engaging way. Include sections like an about page, blog, portfolio, and contact information to help visitors learn more about you and connect بسهولة.",
   },
 ]
+
+export const MODELS = {
+  // =========================
+  // ✍️ TITLE / SHORT CONTENT
+  // =========================
+  TITLE_FAST: "google/gemma-3-4b-it:free",
+  TITLE_GOOD: "google/gemma-3-12b-it:free",
+  TITLE_BEST: "meta-llama/llama-3.3-70b-instruct:free",
+
+  // =========================
+  // 💬 CHAT / CONVERSATION
+  // =========================
+  CHAT_FAST: "inclusionai/ling-2.6-flash:free",
+  CHAT_GOOD: "google/gemma-3-27b-it:free",
+  CHAT_BEST: "meta-llama/llama-3.3-70b-instruct:free",
+
+  // =========================
+  // 🧠 REASONING / THINKING
+  // =========================
+  THINK_FAST: "openai/gpt-oss-20b:free",
+  THINK_GOOD: "qwen/qwen3-next-80b-a3b-instruct:free",
+  THINK_BEST: "nousresearch/hermes-3-llama-3.1-405b:free",
+
+  // =========================
+  // 💻 CODING
+  // =========================
+  CODE_FAST: "qwen/qwen3-coder:free",
+  CODE_BEST: "cognitivecomputations/dolphin-mistral-24b-venice-edition:free",
+
+  // =========================
+  // ⚡ VERY FAST / LIGHT MODELS
+  // =========================
+  FAST_TINY: "meta-llama/llama-3.2-3b-instruct:free",
+  FAST_SMALL: "google/gemma-3n-e4b-it:free",
+  FAST_BALANCED: "nvidia/nemotron-nano-9b-v2:free",
+  FAST_LARGE: "nvidia/nemotron-3-nano-30b-a3b:free",
+
+  // =========================
+  // 🚀 FLASH CHAT (VERY QUICK)
+  // =========================
+  QUICK_CHAT_1: "inclusionai/ling-2.6-flash:free",
+  QUICK_CHAT_2: "z-ai/glm-4.5-air:free",
+  QUICK_CHAT_3: "minimax/minimax-m2.5:free",
+  QUICK_CHAT_4: "tencent/hy3-preview:free",
+
+  // =========================
+  // 🧾 SPECIAL TOOLS
+  // =========================
+  OCR: "baidu/qianfan-ocr-fast:free",
+  MULTIMODAL: "nvidia/nemotron-nano-12b-v2-vl:free",
+
+  // =========================
+  // 🔁 AUTO FALLBACK
+  // =========================
+  AUTO: "openrouter/free",
+} as const
+
+export type ModelKey = keyof typeof MODELS
