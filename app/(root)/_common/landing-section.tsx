@@ -95,6 +95,9 @@ export default function LandingSection() {
                 )}
               </div>
             )}
+            {isError && (
+              <p className="text-red-500">Failed to load projects.</p>
+            )}
           </div>
         </div>
       </div>
