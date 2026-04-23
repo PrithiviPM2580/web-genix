@@ -1,14 +1,27 @@
 import Logo from "@/components/logo"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { cn } from "@/lib/utils"
-import { LoginLink } from "@kinde-oss/kinde-auth-nextjs"
-import { MoonIcon, SunIcon } from "lucide-react"
+import {
+  LoginLink,
+  LogoutLink,
+  useKindeBrowserClient,
+} from "@kinde-oss/kinde-auth-nextjs"
+import { LogOut, MoonIcon, SunIcon } from "lucide-react"
 import { useTheme } from "next-themes"
 import Link from "next/link"
-import React from "react"
 
 export default function Header() {
   const { theme, setTheme } = useTheme()
+  const { user } = useKindeBrowserClient()
   const isDark = theme === "dark"
 
   return (
@@ -40,9 +53,39 @@ export default function Header() {
                 )}
               />
             </Button>
-            <LoginLink postLoginRedirectURL="/">
-              <Button>Sign In</Button>
-            </LoginLink>
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <Avatar>
+                    <AvatarImage
+                      src={user?.picture || ""}
+                      alt={user?.given_name || "User"}
+                    />
+                    <AvatarFallback className="rounded-lg">
+                      {user?.given_name?.charAt(0)}
+                      {user?.family_name?.charAt(0)}
+                    </AvatarFallback>
+                  </Avatar>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>
+                    <LogoutLink
+                      postLogoutRedirectURL="/"
+                      className="flex w-full items-center gap-1"
+                    >
+                      <LogOut className="size-4" />
+                      Logout
+                    </LogoutLink>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <LoginLink postLoginRedirectURL="/">
+                <Button>Sign In</Button>
+              </LoginLink>
+            )}
           </div>
         </div>
       </div>
