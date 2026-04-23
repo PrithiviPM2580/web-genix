@@ -3,14 +3,30 @@
 import { Suggestion, Suggestions } from "@/components/ai-elements/suggestion"
 import PromptInput from "@/components/prompt-input"
 import { suggestionItems } from "@/constants"
-import { useState } from "react"
+import { memo, useState } from "react"
 import Header from "./header"
+import { useCreateProject, useGetProjects } from "@/features/use-project"
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs"
+import { Spinner } from "@/components/ui/spinner"
+import { ProjectType } from "@/types"
+import { useRouter } from "next/navigation"
+import { formatDistanceToNow } from "date-fns"
+import { FolderOpenDotIcon } from "lucide-react"
 
 export default function LandingSection() {
   const [promptText, setPromptText] = useState<string>("")
+  const { user } = useKindeBrowserClient()
+  const { mutate, isPending } = useCreateProject()
+  const userId = user?.id
+  const { data: projects, isLoading, isError } = useGetProjects(userId)
 
   function handleSuggestionClick(value: string) {
     setPromptText(value)
+  }
+
+  function handleSubmit() {
+    if (!promptText) return
+    mutate(promptText)
   }
   return (
     <div className="min-h-screen w-full px-4 md:px-0">
@@ -34,8 +50,8 @@ export default function LandingSection() {
                   className="rounded-3xl ring-2 ring-primary"
                   promptText={promptText}
                   setPromptText={setPromptText}
-                  isLoading={false}
-                  onSubmit={() => {}}
+                  isLoading={isPending}
+                  onSubmit={handleSubmit}
                 />
               </div>
             </div>
@@ -63,12 +79,67 @@ export default function LandingSection() {
         </div>
         <div className="w-full py-10">
           <div className="mx-auto max-w-3xl">
-            <div className="">
-              <h1 className="text-xl font-medium tracking-tight">Recent</h1>
-            </div>
+            {userId && (
+              <div className="">
+                <h1 className="text-xl font-medium tracking-tight">Recent</h1>
+                {isLoading ? (
+                  <div className="flex items-center justify-center py-2">
+                    <Spinner />
+                  </div>
+                ) : (
+                  <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
+                    {projects?.data?.map((project: ProjectType) => (
+                      <ProjectCard key={project.id} project={project} />
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>
     </div>
   )
 }
+
+const ProjectCard = memo(function ProjectCard({
+  project,
+}: {
+  project: ProjectType
+}) {
+  const router = useRouter()
+  const createdAtDate = new Date(project.createdAt)
+  const timeAgo = formatDistanceToNow(createdAtDate, { addSuffix: true })
+  const thumbnail = project.thumbnail || null
+
+  const onRoute = () => {
+    router.push(`/project/${project.id}`)
+  }
+  return (
+    <div
+      role="button"
+      className="flex w-full cursor-pointer flex-col overflow-hidden rounded-xl border hover:shadow-md"
+      onClick={onRoute}
+    >
+      <div className="relative flex h-40 items-center justify-center overflow-hidden bg-[#eee]">
+        {thumbnail ? (
+          <img
+            src={thumbnail}
+            alt="Project Thumbnail"
+            className="h-full w-full scale-110 object-cover object-left"
+          />
+        ) : (
+          <div className="flex size-16 items-center justify-center rounded-full bg-primary/20 text-primary">
+            <FolderOpenDotIcon />
+          </div>
+        )}
+      </div>
+      <div className="flex flex-col p-4">
+        <h3 className="mb-1 line-clamp-1 w-full truncate text-sm font-semibold">
+          {project.name}
+        </h3>
+        <p className="text-xs text-muted-foreground">{timeAgo}</p>
+      </div>
+    </div>
+  )
+})
