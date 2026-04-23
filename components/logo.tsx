@@ -1,3 +1,4 @@
+import { Webhook } from "lucide-react"
 import Link from "next/link"
 
 export default function Logo() {
@@ -6,8 +7,10 @@ export default function Logo() {
       href="/"
       className="flex flex-1 items-center gap-2 text-xl sm:max-w-6xl"
     >
-      <span className="inline-block font-extrabold text-primary">X</span>
-      <span className="font-semibold text-foreground">Design.ai</span>
+      <span className="inline-block font-extrabold text-primary">
+        <Webhook className="size-6" />
+      </span>
+      <span className="font-semibold text-foreground">Web.Genix</span>
     </Link>
   )
 }
