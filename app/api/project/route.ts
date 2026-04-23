@@ -1,3 +1,4 @@
+import { generateProjectName } from "@/app/action/action"
 import prisma from "@/lib/prisma"
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
 import { NextResponse } from "next/server"
@@ -13,14 +14,16 @@ export async function POST(request: Request) {
 
     const userId = user.id
 
-    // const projectName= await generateProjectName(prompt);
+    const projectName = await generateProjectName(prompt)
 
     const project = await prisma.project.create({
       data: {
         userId,
-        name: "",
+        name: projectName,
       },
     })
+
+    //Trigger the Inngest
 
     return NextResponse.json({
       success: true,
