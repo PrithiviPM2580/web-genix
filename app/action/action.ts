@@ -9,8 +9,7 @@ export async function generateProjectName(prompt: string) {
   try {
     const { text } = await generateText({
       model: openRouter.chat(selectModel("title", "fast")),
-      system: GENERATE_PROJECT_NAME_PROMPT,
-      prompt: prompt,
+      prompt: `${GENERATE_PROJECT_NAME_PROMPT}\n\n${prompt}`,
     })
 
     return text?.trim() || "Untitled Project"
