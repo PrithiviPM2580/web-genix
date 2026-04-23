@@ -3,6 +3,37 @@ import prisma from "@/lib/prisma"
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
 import { NextResponse } from "next/server"
 
+export async function GET(request: Request) {
+  try {
+    const session = await getKindeServerSession()
+    const user = await session.getUser()
+
+    if (!user) throw new Error("Unauthorized")
+
+    const projects = await prisma.project.findMany({
+      where: { userId: user.id },
+      take: 10,
+      orderBy: { createdAt: "desc" },
+    })
+
+    return NextResponse.json({
+      success: true,
+      data: projects,
+    })
+  } catch (error) {
+    console.log("Error in GET /api/project:", error)
+    return NextResponse.json(
+      {
+        success: false,
+        error:
+          (error as Error).message ||
+          "An error occurred while fetching projects",
+      },
+      { status: 500 }
+    )
+  }
+}
+
 export async function POST(request: Request) {
   try {
     const { prompt } = await request.json()
