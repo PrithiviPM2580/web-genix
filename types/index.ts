@@ -30,6 +30,14 @@ export interface FrameType {
   title: string
   htmlContent: string
   projectId?: string
+  isLoading?: boolean
   createdAt: Date
   updatedAt: Date
 }
+
+export type LoadingStatusType =
+  | "idle"
+  | "running"
+  | "analyzing"
+  | "generating"
+  | "completed"
