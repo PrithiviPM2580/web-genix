@@ -4,9 +4,11 @@ import { LoadingStatusType } from "@/types"
 import { Spinner } from "../ui/spinner"
 import CanvasFloatingToolbar from "./canvas-floating-toobar"
 import { useState } from "react"
-import { TOOL_MODE_ENUM, ToolModeType } from "@/constants"
+import { DEMO_HTML, TOOL_MODE_ENUM, ToolModeType } from "@/constants"
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch"
 import CanvasControls from "./canvas-controls"
+import DeviceFrame from "./device-frame"
+import DeviceFrameSkeleton from "./device-frame-skeleton"
 
 type CanvasProps = {
   projectId: string
@@ -19,8 +21,7 @@ export default function Canvas({
   projectName,
   isPending,
 }: CanvasProps) {
-  const { theme, frames, selectedFrame, setSelectedFrameId, loadingStatus } =
-    useCanvas()
+  const { theme, frames, loadingStatus } = useCanvas()
 
   const [toolMode, setToolMode] = useState<ToolModeType>(TOOL_MODE_ENUM.SELECT)
   const [zoomPercent, setZoomPercent] = useState<number>(53)
@@ -80,10 +81,39 @@ export default function Canvas({
                 contentStyle={{
                   width: "100%",
                   height: "100%",
-                  background: "red",
                 }}
               >
-                <div className="size-50 bg-blue-500">Box</div>
+                <div>
+                  {" "}
+                  {frames?.map((frame, index) => {
+                    const baseX = 100 + index * 480
+                    const y = 100
+
+                    if (frame.isLoading) {
+                      return (
+                        <DeviceFrameSkeleton
+                          key={index}
+                          style={{ transform: `translate(${baseX}px, 100px)` }}
+                        />
+                      )
+                    }
+                    return (
+                      <DeviceFrame
+                        key={frame.id}
+                        frameId={frame.id}
+                        title={frame.title}
+                        html={frame.htmlContent}
+                        scale={currentScale}
+                        initialPostition={{
+                          x: baseX,
+                          y: y,
+                        }}
+                        toolMode={toolMode}
+                        themeStyle={theme?.style}
+                      />
+                    )
+                  })}
+                </div>
               </TransformComponent>
             </div>
             <CanvasControls
