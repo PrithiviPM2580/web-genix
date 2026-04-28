@@ -3,6 +3,7 @@
 import { TOOL_MODE_ENUM, ToolModeType } from "@/constants"
 import { useCanvas } from "@/context/canvas-context"
 import { getHTMLWrapper } from "@/lib/frame-wrapper"
+import { cn } from "@/lib/utils"
 import { useRef, useState } from "react"
 import { Rnd } from "react-rnd"
 
@@ -41,9 +42,6 @@ export default function DeviceFrame({
   const isSlected = selectedFrameId === frameId
   const fullHtml = getHTMLWrapper(html, title, themeStyle, frameId)
 
-  const Handle = () => (
-    <div className="z-30 size-4 border-2 border-blue-500 bg-white" />
-  )
   return (
     <Rnd
       default={{
@@ -69,7 +67,60 @@ export default function DeviceFrame({
       }}
       resizeHandleComponent={{
         topLeft: isSlected ? <Handle /> : undefined,
+        topRight: isSlected ? <Handle /> : undefined,
+        bottomRight: isSlected ? <Handle /> : undefined,
+        bottomLeft: isSlected ? <Handle /> : undefined,
       }}
-    ></Rnd>
+      resizeHandleStyles={{
+        top: { cursor: "ns-resize" },
+        bottom: { cursor: "ns-resize" },
+        left: { cursor: "ew-resize" },
+        right: { cursor: "ew-resize" },
+      }}
+      onResize={(e, direction, ref) => {
+        setFrameSize({
+          width: parseInt(ref.style.width),
+          height: parseInt(ref.style.height),
+        })
+      }}
+      className={cn(
+        "relative z-10",
+        isSlected &&
+          toolMode !== TOOL_MODE_ENUM.HAND &&
+          "ring-3 ring-blue-400 ring-offset-1",
+        toolMode === TOOL_MODE_ENUM.HAND
+          ? "cursor-grab active:cursor-grabbing"
+          : "cursor-move"
+      )}
+    >
+      <div className="h-full w-full">
+        <div
+          className={cn(
+            "relative h-auto w-full overflow-hidden rounded-[36px] shadow-sm",
+            isSlected && toolMode !== TOOL_MODE_ENUM.HAND && "rounded-none"
+          )}
+        >
+          <iframe
+            ref={iframeRef}
+            title={title}
+            srcDoc={fullHtml}
+            sandbox="allow-scripts allow-same-origin"
+            style={{
+              width: "100%",
+              minHeight: `${minHeight}px`,
+              height: `${frameSize.height}px`,
+              border: "none",
+              pointerEvents: "none",
+              display: "block",
+              background: "white",
+            }}
+          />
+        </div>
+      </div>
+    </Rnd>
   )
 }
+
+const Handle = () => (
+  <div className="z-30 size-4 border-2 border-blue-500 bg-white" />
+)
