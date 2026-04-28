@@ -137,3 +137,69 @@ export const TOOL_MODE_ENUM = {
 } as const
 
 export type ToolModeType = keyof typeof TOOL_MODE_ENUM
+
+export const DEMO_HTML = `<div class="min-h-screen bg-slate-950 text-slate-100">
+  <div class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,#1e293b,#020617_55%)]"></div>
+
+  <main class="mx-auto flex min-h-screen max-w-6xl flex-col px-6 py-10 lg:px-10">
+    <header class="mb-12 flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-5 py-4 backdrop-blur">
+      <div class="flex items-center gap-3">
+        <span class="grid h-10 w-10 place-items-center rounded-xl bg-cyan-400/20 text-lg font-bold text-cyan-300">WG</span>
+        <div>
+          <p class="text-sm text-slate-300">Web Genix</p>
+          <p class="text-xs text-slate-500">Tailwind Demo UI</p>
+        </div>
+      </div>
+      <button class="rounded-xl border border-cyan-300/30 bg-cyan-400/10 px-4 py-2 text-sm font-medium text-cyan-200 transition hover:bg-cyan-400/20">
+        Get Started
+      </button>
+    </header>
+
+    <section class="grid items-center gap-10 lg:grid-cols-2">
+      <div>
+        <p class="mb-3 inline-flex rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-xs font-medium text-emerald-200">
+          Build Faster with Tailwind
+        </p>
+        <h1 class="mb-4 text-4xl font-semibold tracking-tight text-white sm:text-5xl">
+          Beautiful websites from a single prompt.
+        </h1>
+        <p class="mb-8 max-w-xl text-base leading-7 text-slate-300">
+          Generate modern layouts, reusable sections, and production-ready components in seconds. Tailwind utility classes keep everything clean and easy to customize.
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <button class="rounded-xl bg-cyan-400 px-5 py-2.5 text-sm font-semibold text-slate-900 transition hover:bg-cyan-300">
+            Create Project
+          </button>
+          <button class="rounded-xl border border-white/20 px-5 py-2.5 text-sm font-semibold text-slate-100 transition hover:bg-white/10">
+            View Templates
+          </button>
+        </div>
+      </div>
+
+      <div class="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl backdrop-blur">
+        <div class="mb-4 flex items-center justify-between">
+          <h2 class="text-lg font-medium text-white">Quick Stats</h2>
+          <span class="rounded-lg bg-indigo-400/20 px-2 py-1 text-xs text-indigo-200">Live</span>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+            <p class="text-xs text-slate-400">Projects</p>
+            <p class="mt-2 text-2xl font-semibold text-white">1,284</p>
+          </div>
+          <div class="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+            <p class="text-xs text-slate-400">Templates</p>
+            <p class="mt-2 text-2xl font-semibold text-white">96</p>
+          </div>
+          <div class="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+            <p class="text-xs text-slate-400">Avg Build Time</p>
+            <p class="mt-2 text-2xl font-semibold text-white">42s</p>
+          </div>
+          <div class="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+            <p class="text-xs text-slate-400">Satisfaction</p>
+            <p class="mt-2 text-2xl font-semibold text-white">99%</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>`
